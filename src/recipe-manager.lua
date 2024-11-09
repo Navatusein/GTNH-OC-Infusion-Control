@@ -4,20 +4,17 @@ local component = require("component")
 ---@class Ingredient
 ---@field name string
 ---@field count number
-local ingredient = {}
 
 ---@class Recipe
 ---@field name string
 ---@field aspects Ingredient[]
 ---@field ingredients Ingredient[]
 ---@field result Ingredient
-local recipe = {}
 
 ---@class PatternAspect
 ---@field name string
 ---@field count number
 ---@field slot number
-local patternAspect = {}
 
 ---@class Pattern
 ---@field name string
@@ -25,12 +22,10 @@ local patternAspect = {}
 ---@field slot number
 ---@field aspects PatternAspect[]
 ---@field ingredients Ingredient[]
-local pattern = {}
 
 ---@class RecipeManagerConfig
 ---@field recipeMeInterfaceAddress string
 ---@field recipesFilePath string|nil
-local configParams = {}
 
 local recipeManager = {}
 
@@ -50,14 +45,19 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
   ---@class RecipeManager
   local obj = {}
 
-  obj.recipeMeInterfaceProxy = component.proxy(recipeMeInterfaceAddress)
+  obj.recipeMeInterfaceProxy = component.proxy(recipeMeInterfaceAddress, "me_interface")
   obj.recipesFilePath = recipesFilePath or "recipes.txt"
 
   obj.recipes = {}
 
   ---Load recipes from file
   function obj:load()
-    local file = assert(io.open(self.recipesFilePath, "r"))
+    local file = io.open(self.recipesFilePath, "r")
+
+    if file == nil then
+      return
+    end
+
     self.recipes = serialization.unserialize(file:read("*a"))
     file:close()
   end
@@ -117,7 +117,7 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
   ---@return Pattern[]|nil
   ---@return string|nil
   function obj:scanPatterns()
-    local database = component.database
+    local databaseComponent = component.database
     local patterns = {}
     local slot = 1
 
@@ -134,15 +134,15 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
 
       for i, patternInput in pairs(pattern.inputs) do
         if patternInput.count ~= nil then
-          if patternInput.name == "item.itemAspect" then
+          if string.match(patternInput.name, "Aspect") then
             if patternInput.count > 127 then
               return nil, pattern.outputs[1].name
             end
 
-            self.recipeMeInterfaceProxy.storeInterfacePatternInput(slot, i, database.address, 1)
+            self.recipeMeInterfaceProxy.storeInterfacePatternInput(slot, i, databaseComponent.address, 1)
 
             table.insert(parsedPattern.aspects, {
-              name = database.get(1).aspects[1].name,
+              name = databaseComponent.get(1).aspects[1].name,
               count = patternInput.count,
               slot = i
             })

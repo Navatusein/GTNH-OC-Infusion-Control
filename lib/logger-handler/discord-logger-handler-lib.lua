@@ -1,7 +1,7 @@
 -- Discord Logger Handler Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.3
+-- Version: 1.4
 
 local internet = require("internet")
 
@@ -9,7 +9,6 @@ local internet = require("internet")
 ---@field logLevel "debug"|"info"|"warning"|"error"
 ---@field messageFormat string
 ---@field discordWebhookUrl string
-local configParams = {}
 
 local discordLoggerHandler = {}
 

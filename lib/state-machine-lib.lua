@@ -1,7 +1,7 @@
 -- State Machine Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.0
+-- Version: 1.1
 
 ---@class State
 ---@field key string
@@ -9,7 +9,6 @@
 ---@field init? fun()
 ---@field update? fun()
 ---@field exit? fun()
-local stateClass = {}
 
 local stateMachine = {}
 

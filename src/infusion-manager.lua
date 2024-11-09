@@ -11,7 +11,6 @@ local component = require("component")
 ---@field acceleratorSide number
 ---@field infusionClawActivationDelay number|nil
 ---@field infusionClawAcceleratorDelay number|nil
-local configParams = {}
 
 local infusionManager = {}
 
@@ -62,14 +61,14 @@ function infusionManager:new(
   ---@class InfusionManager
   local obj = {}
 
-  obj.infusionMeInterfaceProxy = component.proxy(infusionMeInterfaceAddress)
+  obj.infusionMeInterfaceProxy = component.proxy(infusionMeInterfaceAddress, "me_interface")
 
   obj.transposerProxy = component.proxy(transposerAddress)
 
   obj.mainMeSide = mainMeSide
   obj.infusionMeSide = infusionMeSide
 
-  obj.redstoneProxy = component.proxy(redstoneAddress)
+  obj.redstoneProxy = component.proxy(redstoneAddress, "redstone")
 
   obj.infusionClawSide = infusionClawSide
   obj.infusionClawAcceleratorSide = infusionClawAcceleratorSide
@@ -81,7 +80,7 @@ function infusionManager:new(
   ---Get ingredients from infusion ae
   ---@return Ingredient[]
   function obj:getIngredients()
-    local networkItems = self.infusionMeInterfaceProxy.getItemsInNetwork()
+    local networkItems = self.infusionMeInterfaceProxy.getItemsInNetwork({})
     local items = {}
 
     for _, value in pairs(networkItems) do
@@ -89,6 +88,13 @@ function infusionManager:new(
     end
 
     return items
+  end
+
+  ---Reset infusion state
+  function obj:reset()
+    self.redstoneProxy.setOutput(self.infusionClawSide, 0)
+    self.redstoneProxy.setOutput(self.infusionClawAcceleratorSide, 0)
+    self.redstoneProxy.setOutput(self.acceleratorSide, 0)
   end
 
   ---Start infusion craft

@@ -1,7 +1,7 @@
 -- Console Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.0
+-- Version: 1.1
 
 local term = require("term")
 
@@ -11,11 +11,9 @@ local term = require("term")
 ---@field userInputToNumber boolean
 ---@field userInputToLower boolean
 ---@field resultValue any
-local condition = {}
 
 ---@class Reader
 ---@field conditions table<string, Condition>
-local reader = {}
 
 local console = {}
 

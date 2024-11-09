@@ -11,7 +11,7 @@ local recipeManager = require("src.recipe-manager")
 local config = {
   logger = loggerLib:newFormConfig({
     name = "Infusion Control",
-    timeZone = 3,
+    timeZone = 3, -- Your time zone
     handlers = {
       discordLoggerHandler:newFormConfig({
         logLevel = "warning",
@@ -34,7 +34,7 @@ local config = {
 
   infusionManager = infusionManager:newFormConfig({
     infusionMeInterfaceAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the me interface which connected to infusion ME
-    transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",-- Address of the transposer
+    transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the transposer
     mainMeSide = sides.south, -- Side of the transposer with ME IO Port which connected to main ME
     infusionMeSide = sides.north, -- Side of the transposer with ME IO Port which connected to infusion ME
     redstoneAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the Redstone I/O
