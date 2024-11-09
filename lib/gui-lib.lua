@@ -2,7 +2,8 @@
 -- Author: CAHCAHbl4
 -- Edit: Navatusein
 -- License: MIT
--- Version: 2.3
+-- Version: 2.4
+
 local component = require("component")
 local term = require("term")
 local serialization = require("serialization")
@@ -11,7 +12,6 @@ local gpu = component.gpu
 
 ---@class GUIConfig
 ---@field program Program
-local configParams = {}
 
 ---@class Template
 ---@field width number
@@ -19,13 +19,11 @@ local configParams = {}
 ---@field foreground number
 ---@field widgets table<string, Widget>
 ---@field lines string[]
-local templateClass = {}
 
 ---@class Widget
 ---@field init fun(self, template: Template, name: string)
 ---@field render fun(self, values: table<string, string|number|table>, y: number, args: string[]): string
 ---@field registerKeyHandlers fun(): table<number, function>
-local widgetClass = {}
 
 ---Split string by delimiter
 ---@param string string

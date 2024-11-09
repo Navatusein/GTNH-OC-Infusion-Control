@@ -1,7 +1,7 @@
 -- Logger Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 2.2
+-- Version: 2.3
 
 local filesystem = require("filesystem")
 local event = require("event")
@@ -10,13 +10,11 @@ local event = require("event")
 ---@field name string
 ---@field timeZone number
 ---@field handlers LoggerHandler[]
-local configParams = {}
 
 ---@class LoggerHandler
 ---@field log fun(self, logger:Logger, level, message)
 ---@field logLevel "debug"|"info"|"warning"|"error"
 ---@field messageFormat string
-local loggerHandler = {}
 
 local logLevels = {debug = 0, info = 1, warning = 2, error = 3}
 

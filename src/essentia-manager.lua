@@ -7,7 +7,6 @@ local console = consoleLib:new()
 ---@class Essentia
 ---@field aspect string
 ---@field name string
-local essentia = {}
 
 ---@type table<string, Essentia>
 local essentiaList = {
@@ -84,7 +83,6 @@ local essentiaList = {
 
 ---@class EssentiaManagerConfig
 ---@field mainMeInterfaceAddress string
-local configParams = {}
 
 local essentiaManager = {}
 
@@ -103,7 +101,7 @@ function essentiaManager:new(mainMeInterfaceAddress)
   ---@class EssentiaManager
   local obj = {}
 
-  obj.mainMeInterfaceProxy = component.proxy(mainMeInterfaceAddress)
+  obj.mainMeInterfaceProxy = component.proxy(mainMeInterfaceAddress, "me_interface")
 
   ---Edit aspects in recipe
   ---@param aspects Ingredient[]

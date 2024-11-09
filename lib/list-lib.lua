@@ -1,11 +1,10 @@
 -- List Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.1
+-- Version: 1.2
 
 ---@class ListConfig
 ---@field maxSize number|nil
-local configParams = {}
 
 local list = {}
 
