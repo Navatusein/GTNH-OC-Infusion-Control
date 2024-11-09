@@ -1,5 +1,4 @@
 local keyboard = require("keyboard")
-local event = require("event")
 
 local programLib = require("lib.program-lib")
 local guiLib = require("lib.gui-lib")
@@ -62,6 +61,8 @@ local function init()
 
   config.recipeManager:load()
   config.logger:init()
+
+  config.infusionManager:reset()
 
   stateMachine.states.idle = stateMachine:createState("Idle")
   stateMachine.states.idle.update = function()
