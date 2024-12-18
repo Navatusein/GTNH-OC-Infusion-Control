@@ -1,6 +1,8 @@
 local serialization = require("serialization")
 local component = require("component")
 
+local componentDiscoverLib = require("lib.component-discover-lib")
+
 ---@class Ingredient
 ---@field name string
 ---@field count number
@@ -45,7 +47,8 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
   ---@class RecipeManager
   local obj = {}
 
-  obj.recipeMeInterfaceProxy = component.proxy(recipeMeInterfaceAddress, "me_interface")
+  obj.recipeMeInterfaceProxy = componentDiscoverLib.discoverProxy(recipeMeInterfaceAddress, "Recipe Me Interface", "me_interface")
+
   obj.recipesFilePath = recipesFilePath or "recipes.txt"
 
   obj.recipes = {}
@@ -142,7 +145,7 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
             self.recipeMeInterfaceProxy.storeInterfacePatternInput(slot, i, databaseComponent.address, 1)
 
             table.insert(parsedPattern.aspects, {
-              name = databaseComponent.get(1).aspects[1].name,
+              name = databaseComponent.get(1)["aspects"][1].name,
               count = patternInput.count,
               slot = i
             })

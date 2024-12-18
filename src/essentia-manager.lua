@@ -1,6 +1,7 @@
 local component = require("component")
 
 local consoleLib = require("lib.console-lib")
+local componentDiscoverLib = require("lib.component-discover-lib")
 
 local console = consoleLib:new()
 
@@ -101,7 +102,7 @@ function essentiaManager:new(mainMeInterfaceAddress)
   ---@class EssentiaManager
   local obj = {}
 
-  obj.mainMeInterfaceProxy = component.proxy(mainMeInterfaceAddress, "me_interface")
+  obj.mainMeInterfaceProxy = componentDiscoverLib.discoverProxy(mainMeInterfaceAddress, "Main Me Interface", "me_interface")
 
   ---Edit aspects in recipe
   ---@param aspects Ingredient[]

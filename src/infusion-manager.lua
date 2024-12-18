@@ -1,5 +1,7 @@
 local component = require("component")
 
+local componentDiscoverLib = require("lib.component-discover-lib")
+
 ---@class InfusionManagerConfig
 ---@field infusionMeInterfaceAddress string
 ---@field transposerAddress string
@@ -32,7 +34,6 @@ function infusionManager:newFormConfig(config)
   )
 end
 
-
 ---Crate new InfusionManager object
 ---@param infusionMeInterfaceAddress string
 ---@param transposerAddress string
@@ -61,14 +62,14 @@ function infusionManager:new(
   ---@class InfusionManager
   local obj = {}
 
-  obj.infusionMeInterfaceProxy = component.proxy(infusionMeInterfaceAddress, "me_interface")
+  obj.infusionMeInterfaceProxy = componentDiscoverLib.discoverProxy(infusionMeInterfaceAddress, "Infusion Me Interface", "me_interface")
 
-  obj.transposerProxy = component.proxy(transposerAddress)
+  obj.transposerProxy = componentDiscoverLib.discoverProxy(transposerAddress, "ME IO Port Transposer", "transposer")
 
   obj.mainMeSide = mainMeSide
   obj.infusionMeSide = infusionMeSide
 
-  obj.redstoneProxy = component.proxy(redstoneAddress, "redstone")
+  obj.redstoneProxy = componentDiscoverLib.discoverProxy(redstoneAddress, "Redstone I/O", "redstone")
 
   obj.infusionClawSide = infusionClawSide
   obj.infusionClawAcceleratorSide = infusionClawAcceleratorSide
