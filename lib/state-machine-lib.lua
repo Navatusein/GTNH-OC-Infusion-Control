@@ -1,10 +1,9 @@
 -- State Machine Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.1
+-- Version: 1.2
 
 ---@class State
----@field key string
 ---@field name string
 ---@field init? fun()
 ---@field update? fun()
