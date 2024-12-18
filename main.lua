@@ -11,7 +11,12 @@ local scrollList = require("lib.gui-widgets.scroll-list")
 package.loaded.config = nil
 local config = require("config")
 
-local program = programLib:new(config.logger)
+local version = require("version")
+
+local repository = "Navatusein/GTNH-OC-Infusion-Control"
+local archiveName = "InfusionControl"
+
+local program = programLib:new(config.logger, config.enableAutoUpdate, version, repository, archiveName)
 local gui = guiLib:new(program)
 local stateMachine = stateMachineLib:new()
 local console = consoleLib:new()
