@@ -139,6 +139,10 @@ function logger:new(name, timeZone, handlers)
     return result
   end
 
+  function obj:getLogger(name)
+    
+  end
+
   ---Log
   ---@param logLevel "debug"|"info"|"warning"|"error"
   ---@param ... any

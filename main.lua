@@ -1,8 +1,8 @@
 local keyboard = require("keyboard")
+local event = require("event")
 
 local programLib = require("lib.program-lib")
 local guiLib = require("lib.gui-lib")
-local listLib = require("list-lib")
 local stateMachineLib = require("lib.state-machine-lib")
 local consoleLib = require("lib.console-lib")
 
@@ -11,7 +11,12 @@ local scrollList = require("lib.gui-widgets.scroll-list")
 package.loaded.config = nil
 local config = require("config")
 
-local program = programLib:new(config.logger)
+local version = require("version")
+
+local repository = "Navatusein/GTNH-OC-Infusion-Control"
+local archiveName = "InfusionControl"
+
+local program = programLib:new(config.logger, config.enableAutoUpdate, version, repository, archiveName)
 local gui = guiLib:new(program)
 local stateMachine = stateMachineLib:new()
 local console = consoleLib:new()
@@ -23,8 +28,6 @@ local logo = {
   " | || | | |  _| |_| \\__ \\ | (_) | | | | | |__| (_) | | | | |_| | | (_) | |",
   "|___|_| |_|_|  \\__,_|___/_|\\___/|_| |_|  \\____\\___/|_| |_|\\__|_|  \\___/|_|"
 }
-
-local logs = listLib:new(32)
 
 local mainTemplate = {
   width = 60,
@@ -60,7 +63,6 @@ local function init()
   gui:setTemplate(mainTemplate)
 
   config.recipeManager:load()
-  config.logger:init()
 
   config.infusionManager:reset()
 
@@ -73,7 +75,7 @@ local function init()
       stateMachine.data.recipe = recipe
       stateMachine.data.recipeName = recipe.name
 
-      logs:pushFront("Start: "..recipe.name)
+      event.push("log_info", "Start: "..recipe.name)
       stateMachine:setState(stateMachine.states.checkAspects)
     end
   end
@@ -86,10 +88,10 @@ local function init()
       stateMachine:setState(stateMachine.states.craft)
     else
       for _, aspect in ipairs(missingAspects) do
-        logs:pushFront(" &yellow;"..config.essentiaManager:getEssentiaByKey(aspect.name).name..": "..aspect.count.."&white;")
+        event.push("log_warning", "  "..config.essentiaManager:getEssentiaByKey(aspect.name).name..": "..aspect.count)
       end
 
-      logs:pushFront("Missing aspects:")
+      event.push("log_warning", "&white;Missing aspects:")
 
       stateMachine.data.missingAspects = missingAspects
       stateMachine:setState(stateMachine.states.craftAspects)
@@ -108,6 +110,8 @@ local function init()
       useCpus = freeCpus
     end
 
+    local missingRecipes = {}
+
     for _, missingAspect in pairs(missingAspects) do
       if useCpus == 0 then
         break
@@ -117,12 +121,17 @@ local function init()
       local craft = config.essentiaManager:craftAspect(missingAspect)
 
       if craft == nil then
-        stateMachine.data = {}
-        stateMachine.data.errorMessage = "No recipe for "..config.essentiaManager:getEssentiaByKey(missingAspect.name).name
-        stateMachine:setState(stateMachine.states.error)
+        table.insert(missingRecipes, config.essentiaManager:getEssentiaByKey(missingAspect.name).name)
+      else
+        table.insert(missingAspectsCrafts, craft)
       end
+    end
 
-      table.insert(missingAspectsCrafts, craft)
+    if #missingRecipes ~= 0 then
+      stateMachine.data = {}
+      stateMachine.data.errorMessage = "No recipe for: "..table.concat(missingRecipes, ", ")
+      stateMachine:setState(stateMachine.states.error)
+      return
     end
 
     stateMachine.data.missingAspectsCrafts = missingAspectsCrafts
@@ -136,7 +145,7 @@ local function init()
         stateMachine.data.errorMessage = "Fail craft ".. config.essentiaManager:getEssentiaByKey(missingAspects[key].name).name
         stateMachine:setState(stateMachine.states.error)
       elseif craft.isDone() then
-        logs:pushFront(config.essentiaManager:getEssentiaByKey(missingAspects[key].name).name .. " crafted")
+        event.push("log_info", config.essentiaManager:getEssentiaByKey(missingAspects[key].name).name .. " crafted")
         table.remove(missingAspects, key)
         table.remove(missingAspectsCrafts, key)
       end
@@ -167,7 +176,7 @@ local function init()
   stateMachine.states.finishCraft.init = function()
     config.infusionManager:finish()
 
-    logs:pushFront("Craft completed: "..stateMachine.data.recipeName)
+    event.push("log_info", "Craft completed: "..stateMachine.data.recipeName)
 
     stateMachine.data.recipe = nil
     stateMachine.data.recipeName = ""
@@ -177,28 +186,26 @@ local function init()
 
   stateMachine.states.error = stateMachine:createState("Error")
   stateMachine.states.error.init = function()
-    config.logger:warning(stateMachine.data.errorMessage)
-
-    logs:pushFront("&red;[Error] "..stateMachine.data.errorMessage.."&white;")
-    logs:pushFront("&red;Press Enter to confirm&white;")
+    event.push("log_error", stateMachine.data.errorMessage)
+    event.push("log_info","&red;Press Enter to confirm")
   end
 
   stateMachine.states.scanPatterns = stateMachine:createState("Scan Patterns")
   stateMachine.states.scanPatterns.init = function()
-    logs:pushFront("Scanning for new recipes")
+    event.push("log_info", "Scanning for new recipes")
 
     os.sleep(0.1)
 
     local patterns, recept = config.recipeManager:scanPatterns()
 
     if patterns == nil then
-      logs:pushFront("&red;[Warning] invalid aspect count in: "..recept)
+      event.push("log_warning", "[Warning] invalid aspect count in: "..recept)
       stateMachine:setState(stateMachine.states.idle)
       return
     end
 
     if #patterns == 0 then
-      logs:pushFront("No new recipes found")
+      event.push("log_info", "No new recipes found")
       stateMachine:setState(stateMachine.states.idle)
       return
     end
@@ -355,7 +362,7 @@ local function guiLoop()
   gui:render({
     state = stateMachine.currentState.name,
     recipeName = stateMachine.data.recipeName,
-    logs = logs.list
+    logs = config.logger.handlers[3]["logs"].list
   })
 end
 

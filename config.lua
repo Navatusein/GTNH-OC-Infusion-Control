@@ -34,13 +34,18 @@ local config = {
 
   infusionManager = infusionManager:newFormConfig({
     infusionMeInterfaceAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the me interface which connected to infusion ME
+
     transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the transposer
+
     mainMeSide = sides.south, -- Side of the transposer with ME IO Port which connected to main ME
     infusionMeSide = sides.north, -- Side of the transposer with ME IO Port which connected to infusion ME
+
     redstoneAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of the Redstone I/O
+
     infusionClawSide = sides.west, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw
     infusionClawAcceleratorSide = sides.south, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw accelerator
     acceleratorSide = sides.north, -- Side of the Redstone I/O with Redstone Transmitter of the matrix accelerator
+
     infusionClawActivationDelay = 0.1, -- Delay how long to signal the infusion claw
     infusionClawAcceleratorDelay = 1, -- Delay how long to signal the infusion claw accelerator
   }),
