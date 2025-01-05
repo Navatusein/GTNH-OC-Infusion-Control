@@ -1,0 +1,169 @@
+descriptor:
+  fieldGroups:
+    - key: logger
+      name: Logger
+      fields:
+        - key: name
+          type: string
+          default: Infusion Control
+          label: Name
+          description: Name witch will be displayed in discord
+
+        - key: timeZone
+          type: integer
+          default: 3
+          label: Time Zone
+          description: Your time zone
+
+        - key: discordWebhookUrl
+          type: string
+          default: ""
+          optional: true
+          label: Discord Webhook Url
+          description: Discord Webhook Url for notifications
+
+    - key: other
+      name: Other
+      fields:
+        - key: maxCpuUse
+          type: integer
+          default: 3
+          min: 1
+          label: Max CPU Use
+          description: Number of CPUs that can be used to order aspects
+
+    - key: essentiaManager
+      name: Essentia Manager
+      fields:
+        - key: mainMeInterfaceAddress
+          type: address
+          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"
+          label: Main ME Interface Address
+          description: Number of CPUs that can be used to order aspects
+
+    - key: infusionManager
+      name: Infusion Manager
+      fields:
+        - key: infusionMeInterfaceAddress
+          type: address
+          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"
+          label: Infusion ME Interface Address
+          description: Address of the me interface which connected to infusion ME
+
+        - key: transposerAddress
+          type: address
+          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"
+          label: Transposer Address
+          description: Address of the transposer
+
+        - key: mainMeSide
+          type: side
+          default: sides.south
+          label: Main ME IO Port Side
+          description: Side of the transposer with ME IO Port which connected to main ME
+
+        - key: infusionMeSide
+          type: side
+          default: sides.north
+          label: Infusion ME IO Port Side
+          description: Side of the transposer with ME IO Port which connected to infusion ME
+
+        - key: redstoneAddress
+          type: address
+          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4"
+          label: Redstone Address
+          description: Address of the Redstone I/O
+
+        - key: infusionClawSide
+          type: side
+          default: sides.west
+          label: Infusion Claw Side
+          description: Side of the Redstone I/O with Redstone Transmitter of the infusion claw
+
+        - key: infusionClawAcceleratorSide
+          type: side
+          default: sides.south
+          label: Infusion Claw Accelerator Side
+          description: Side of the Redstone I/O with Redstone Transmitter of the infusion claw accelerator
+
+        - key: acceleratorSide
+          type: side
+          default: sides.north
+          label: Accelerator Side
+          description: Side of the Redstone I/O with Redstone Transmitter of the matrix accelerator
+
+        - key: infusionClawActivationDelay
+          type: float
+          default: 0.1
+          label: Infusion Claw Activation Delay
+          description: Delay how long to signal the infusion claw
+
+        - key: infusionClawAcceleratorDelay
+          type: float
+          default: 1
+          label: Infusion Claw Accelerator Delay
+          description: Delay how long to signal the infusion claw accelerator
+
+    - key: recipeManager
+      name: Recipe Manager
+      fields:
+        - key: recipeMeInterfaceAddress
+          type: address
+          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa5"
+          label: Recipe ME Interface Address
+          description: Address of me interface which will be used to add recipes
+
+  configTemplate: |
+    local sides = require("sides")
+
+    local loggerLib = require("lib.logger-lib")
+    local discordLoggerHandler = require("lib.logger-handler.discord-logger-handler-lib")
+    local fileLoggerHandler = require("lib.logger-handler.file-logger-handler-lib")
+
+    local essentiaManager = require("src.essentia-manager")
+    local infusionManager = require("src.infusion-manager")
+    local recipeManager = require("src.recipe-manager")
+
+    local config = {
+      logger = loggerLib:newFormConfig({
+        name = "<field>name</field>",
+        timeZone = <field>timeZone</field>, -- Your time zone
+        handlers = {
+          discordLoggerHandler:newFormConfig({
+            logLevel = "warning",
+            messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
+            discordWebhookUrl = "<field>discordWebhookUrl</field>" -- Discord Webhook URL
+          }),
+          fileLoggerHandler:newFormConfig({
+            logLevel = "info",
+            messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
+            filePath = "logs.log"
+          })
+        }
+      }),
+
+      maxCpuUse = <field>maxCpuUse</field>, -- Number of CPUs that can be used to order aspects
+
+      essentiaManager = essentiaManager:newFormConfig({
+        mainMeInterfaceAddress = "<field>mainMeInterfaceAddress</field>" -- Address of the me interface which connected to main ME
+      }),
+
+      infusionManager = infusionManager:newFormConfig({
+        infusionMeInterfaceAddress = "<field>infusionMeInterfaceAddress</field>", -- Address of the me interface which connected to infusion ME
+        transposerAddress = "<field>transposerAddress</field>", -- Address of the transposer
+        mainMeSide = <field>mainMeSide</field>, -- Side of the transposer with ME IO Port which connected to main ME
+        infusionMeSide = <field>infusionMeSide</field>, -- Side of the transposer with ME IO Port which connected to infusion ME
+        redstoneAddress = "<field>redstoneAddress</field>", -- Address of the Redstone I/O
+        infusionClawSide = <field>infusionClawSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw
+        infusionClawAcceleratorSide = <field>infusionClawAcceleratorSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw accelerator
+        acceleratorSide = <field>acceleratorSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the matrix accelerator
+        infusionClawActivationDelay = <field>infusionClawActivationDelay</field>, -- Delay how long to signal the infusion claw
+        infusionClawAcceleratorDelay = <field>infusionClawAcceleratorDelay</field>, -- Delay how long to signal the infusion claw accelerator
+      }),
+
+      recipeManager = recipeManager:newFormConfig({
+        recipeMeInterfaceAddress = "<field>recipeMeInterfaceAddress</field>" -- Address of me interface which will be used to add recipes
+      }),
+    }
+
+    return config
