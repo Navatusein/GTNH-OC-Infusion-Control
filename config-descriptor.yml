@@ -37,7 +37,6 @@ descriptor:
       fields:
         - key: mainMeInterfaceAddress
           type: address
-          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"
           label: Main ME Interface Address
           description: Number of CPUs that can be used to order aspects
 
@@ -46,13 +45,11 @@ descriptor:
       fields:
         - key: infusionMeInterfaceAddress
           type: address
-          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"
           label: Infusion ME Interface Address
           description: Address of the me interface which connected to infusion ME
 
         - key: transposerAddress
           type: address
-          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"
           label: Transposer Address
           description: Address of the transposer
 
@@ -70,7 +67,6 @@ descriptor:
 
         - key: redstoneAddress
           type: address
-          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4"
           label: Redstone Address
           description: Address of the Redstone I/O
 
@@ -109,7 +105,6 @@ descriptor:
       fields:
         - key: recipeMeInterfaceAddress
           type: address
-          default: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa5"
           label: Recipe ME Interface Address
           description: Address of me interface which will be used to add recipes
 
