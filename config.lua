@@ -3,6 +3,7 @@ local sides = require("sides")
 local loggerLib = require("lib.logger-lib")
 local discordLoggerHandler = require("lib.logger-handler.discord-logger-handler-lib")
 local fileLoggerHandler = require("lib.logger-handler.file-logger-handler-lib")
+local scrollListLoggerHandler = require("lib.logger-handler.scroll-list-logger-handler-lib")
 
 local essentiaManager = require("src.essentia-manager")
 local infusionManager = require("src.infusion-manager")
@@ -22,7 +23,11 @@ local config = {
         logLevel = "info",
         messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
         filePath = "logs.log"
-      })
+      }),
+      scrollListLoggerHandler:newFormConfig({
+        logLevel = "info",
+        logsListSize = 32
+      }),
     }
   }),
 
