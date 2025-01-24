@@ -1,7 +1,7 @@
 -- List Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.2
+-- Version: 1.3
 
 ---@class ListConfig
 ---@field maxSize number|nil
@@ -54,6 +54,13 @@ function list:new(maxSize)
   ---Remove item from back
   function obj:popBack()
     table.remove(self.list)
+  end
+
+  ---Clear list
+  function obj:clear()
+    for _, _ in ipairs(self.list) do
+      self:popBack()
+    end
   end
 
   ---Calculate average

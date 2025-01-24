@@ -2,7 +2,7 @@
 -- Author: CAHCAHbl4
 -- Edit: Navatusein
 -- License: MIT
--- Version: 2.6
+-- Version: 2.8
 
 local component = require("component")
 local term = require("term")
@@ -29,6 +29,7 @@ local gpu = component.gpu
 ---@param string string
 ---@param delimiter string
 ---@return table
+---@private
 local function split(string, delimiter)
   local splitted = {}
   local last_end = 1
@@ -345,6 +346,7 @@ function gui:new(program)
   ---@param line string
   ---@param values table<string, any>
   ---@return string, number
+  ---@private
   function obj:renderConditions(line, values)
     return string.gsub(line, "?(.-)?", function (pattern)
       local condition, left, right = pattern:match("^(.*)|(.*)|(.*)$")
@@ -374,6 +376,7 @@ function gui:new(program)
   ---@param line string
   ---@param values table<string, any>
   ---@return string, number
+  ---@private
   function obj:renderValues(line, values)
     return string.gsub(line, "%$(.-)%$", function (pattern)
       local formatter
@@ -402,6 +405,7 @@ function gui:new(program)
   ---@param values table<string, any>
   ---@param y number
   ---@return string, number
+  ---@private
   function obj:renderWidgets(line, values, y)
     return string.gsub(line, "#(.-)#", function (pattern)
       local name, args = pattern:match("^(.+):(.+)$")
