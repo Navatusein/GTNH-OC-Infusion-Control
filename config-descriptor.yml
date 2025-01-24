@@ -1,7 +1,11 @@
 descriptor:
+  name: Infusion control
+  description: Program for automating crafts on runic matrix from thaumcraft
+  repositoryLink: https://github.com/Navatusein/GTNH-OC-Infusion-Control
   fieldGroups:
     - key: logger
       name: Logger
+      defaultOpen: true
       fields:
         - key: name
           type: string
@@ -24,6 +28,7 @@ descriptor:
 
     - key: other
       name: Other
+      defaultOpen: true
       fields:
         - key: maxCpuUse
           type: integer
@@ -34,6 +39,7 @@ descriptor:
 
     - key: essentiaManager
       name: Essentia Manager
+      defaultOpen: true
       fields:
         - key: mainMeInterfaceAddress
           type: address
@@ -42,6 +48,7 @@ descriptor:
 
     - key: infusionManager
       name: Infusion Manager
+      defaultOpen: true
       fields:
         - key: infusionMeInterfaceAddress
           type: address
@@ -102,6 +109,7 @@ descriptor:
 
     - key: recipeManager
       name: Recipe Manager
+      defaultOpen: true
       fields:
         - key: recipeMeInterfaceAddress
           type: address
@@ -146,12 +154,16 @@ descriptor:
       infusionManager = infusionManager:newFormConfig({
         infusionMeInterfaceAddress = "<field>infusionMeInterfaceAddress</field>", -- Address of the me interface which connected to infusion ME
         transposerAddress = "<field>transposerAddress</field>", -- Address of the transposer
+    
         mainMeSide = <field>mainMeSide</field>, -- Side of the transposer with ME IO Port which connected to main ME
         infusionMeSide = <field>infusionMeSide</field>, -- Side of the transposer with ME IO Port which connected to infusion ME
+    
         redstoneAddress = "<field>redstoneAddress</field>", -- Address of the Redstone I/O
+    
         infusionClawSide = <field>infusionClawSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw
         infusionClawAcceleratorSide = <field>infusionClawAcceleratorSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the infusion claw accelerator
         acceleratorSide = <field>acceleratorSide</field>, -- Side of the Redstone I/O with Redstone Transmitter of the matrix accelerator
+    
         infusionClawActivationDelay = <field>infusionClawActivationDelay</field>, -- Delay how long to signal the infusion claw
         infusionClawAcceleratorDelay = <field>infusionClawAcceleratorDelay</field>, -- Delay how long to signal the infusion claw accelerator
       }),
