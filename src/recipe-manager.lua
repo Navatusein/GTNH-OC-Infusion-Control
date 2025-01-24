@@ -72,31 +72,6 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
 		file:close()
   end
 
-  ---Compare two ingredients lists
-  ---@param first Ingredient[]
-  ---@param second Ingredient[]
-  ---@return boolean
-  function obj:compareIngredients(first, second)
-    if #first ~= #second then
-      return false
-    end
-
-    for _, firstItem in ipairs(first) do
-      local found = false
-      for _, secondItem in ipairs(second) do
-        if firstItem.name == secondItem.name and firstItem.count == secondItem.count then
-          found = true
-          break
-        end
-      end
-      if not found then
-        return false
-      end
-    end
-
-    return true
-  end
-
   ---Find recipe by ingredients
   ---@param ingredients Ingredient[]
   ---@return Recipe|nil
@@ -182,6 +157,32 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
     for i = #pattern.aspects, 1, -1 do
       self.recipeMeInterfaceProxy.clearInterfacePatternInput(pattern.slot, pattern.aspects[i].slot)
     end
+  end
+
+---Compare two ingredients lists
+  ---@param first Ingredient[]
+  ---@param second Ingredient[]
+  ---@return boolean
+  ---@private
+  function obj:compareIngredients(first, second)
+    if #first ~= #second then
+      return false
+    end
+
+    for _, firstItem in ipairs(first) do
+      local found = false
+      for _, secondItem in ipairs(second) do
+        if firstItem.name == secondItem.name and firstItem.count == secondItem.count then
+          found = true
+          break
+        end
+      end
+      if not found then
+        return false
+      end
+    end
+
+    return true
   end
 
   setmetatable(obj, self)

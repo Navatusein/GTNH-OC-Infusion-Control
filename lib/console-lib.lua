@@ -1,7 +1,7 @@
 -- Console Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.1
+-- Version: 1.2
 
 local term = require("term")
 
@@ -42,8 +42,8 @@ function console:new()
   end
 
   ---Get screen Resolution
-  ---@return number
-  ---@return number
+  ---@return number width
+  ---@return number height
   function obj:getResolution()
     local width, height = term.getViewport()
     return width, height
@@ -91,9 +91,9 @@ function console:new()
 
   ---Read from console
   ---@param reader Reader|nil
-  ---@return any
-  ---@return string|nil
-  ---@return string|number
+  ---@return any userInput
+  ---@return string|nil key
+  ---@return string|number input
   function obj:read(reader)
     local _, startRow = term.getCursor()
 
