@@ -2,7 +2,7 @@
 -- Author: CAHCAHbl4
 -- Edit: Navatusein
 -- License: MIT
--- Version: 2.8
+-- Version: 2.9
 
 local component = require("component")
 local term = require("term")
@@ -69,6 +69,8 @@ local formatters = {
     format = (format and format or "%.2f")
 
     local formatted = string.format(format, value)
+    local k = 0
+
     while true do
       formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
       if (k == 0) then
