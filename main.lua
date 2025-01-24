@@ -384,11 +384,18 @@ local function editButtonHandler()
   end
 end
 
+local function clearErrorList()
+  ---@type ScrollListLoggerHandler|LoggerHandler
+  local logger = config.logger.handlers[3]
+  logger:clearList()
+end
+
 program:registerLogo(logo)
 program:registerInit(init)
 program:registerKeyHandler(keyboard.keys.enter, errorButtonHandler)
 program:registerKeyHandler(keyboard.keys.a, addButtonHandler)
 program:registerKeyHandler(keyboard.keys.e, editButtonHandler)
+program:registerKeyHandler(keyboard.keys.delete, clearErrorList)
 program:registerThread(loop)
 program:registerTimer(guiLoop, math.huge)
 program:start()
