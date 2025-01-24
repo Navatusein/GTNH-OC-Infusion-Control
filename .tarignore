@@ -3,5 +3,8 @@
 config-descriptor.yml
 .github/
 .git/
+docs/
+.docs/
 *.md
 *.png
+*.zip
