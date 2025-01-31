@@ -10,6 +10,8 @@ local infusionManager = require("src.infusion-manager")
 local recipeManager = require("src.recipe-manager")
 
 local config = {
+  enableAutoUpdate = true, -- Enable auto update on start
+
   logger = loggerLib:newFormConfig({
     name = "Infusion Control",
     timeZone = 3, -- Your time zone
