@@ -48,6 +48,12 @@ The program looks at what ingredients are present in the Infusion AE subnet, fin
 After that it looks if there are enough aspects for crafting. If not, it tries to order the missing ones, if it fails, it gives an error. 
 If all is enough, then starts infusion and after the expiration of the craft returns the result to the main AE.
 
+#### Adding a recipe for aspect
+
+Craft patterns on aspects are encoded with Distillation Pattern Encoder.
+
+![Distillation Pattern Encoder](/docs/distillation-pattern-encoder.png)
+
 #### Adding a recipe
 
 To use it, you must first add a recipe, which is done by coding the recipe in the ME Fluid Processing Pattern Terminal.
