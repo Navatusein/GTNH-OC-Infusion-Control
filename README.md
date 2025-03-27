@@ -36,11 +36,9 @@ And there is also the possibility of auto update at startup.
 
 ![Interface](/docs/interface.png)
 
-<a id="installation"></a>
+<a id="how-to-use"></a>
 
 ## How to use
-
-<a id="how-to-use"></a>
 
 #### How it works
 
@@ -108,6 +106,8 @@ If you have many recipes, it may be that it is not on the first page. Then enter
 in and delete it. Then repeat the process of adding a recipe.
 
 ![Edit mode](/docs/edit-mode.png)
+
+<a id="installation"></a>
 
 ## Installation
 
@@ -187,6 +187,11 @@ Additionally, in the picture you can see the
 ME IO Port which is connected to the Main AE (It is green in the picture).
 
 ![Infusion AE Subnet](/docs/infusion-subnet.png)
+
+The Infusion Intercepter is used to transfer aspects to the matrix. Unlike Advanced Infusion Provider and 
+Infusion Provider, it transfers aspects to the matrix instantly.
+
+![Infusion Intercepter](/docs/infusion-intercepter.png)
 
 The part with the main AE looks like this. Ingredients are transferred to the 
 Infusion AE subnetwork in the same way as in the Assembly Line. 
