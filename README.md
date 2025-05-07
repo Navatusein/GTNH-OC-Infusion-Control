@@ -162,6 +162,12 @@ main
 
 <br/>
 
+> [!NOTE]  
+> There's a save of the world with a setup of infusion. Game version 2.7.3
+> [Save](https://github.com/Navatusein/GTNH-OC-Infusion-Control/raw/main/infusion.zip)
+
+<br/>
+
 To build a setup, you will need:
 
 - Transposer: 1
