@@ -62,7 +62,12 @@ function recipeManager:new(recipeMeInterfaceAddress, recipesFilePath)
     end
 
     self.recipes = serialization.unserialize(file:read("*a"))
+
     file:close()
+
+    if self.recipes == nil then
+      self.recipes = {}
+    end
   end
 
   ---Save recipes in file
