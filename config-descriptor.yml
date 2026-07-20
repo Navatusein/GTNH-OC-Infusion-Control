@@ -1,7 +1,13 @@
 descriptor:
   name: Infusion control
+  key: infusion-control
+  currentVersion: 2.8
+  lastSupportedVersion: 2.8
   description: Program for automating crafts on runic matrix from thaumcraft
   repositoryLink: https://github.com/Navatusein/GTNH-OC-Infusion-Control
+  versions:
+    - name: 2.8
+      url: "https://raw.githubusercontent.com/Navatusein/GTNH-OC-Infusion-Control/refs/heads/main/config-descriptor.yml"
   fieldGroups:
     - key: logger
       name: Logger
